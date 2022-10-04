@@ -85,7 +85,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.9, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &5773082629104300325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,8 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0, z: 0}
   isRunning: 0
-  characterController: {fileID: 5773082629104300326}
+  controller: {fileID: 5773082629104300326}
+  body: {fileID: 4893339967941049210}
   speed: 5
+  rotationSpeed: 1000
   sprintSpeedMult: 2
   crouchSpeedMult: 0.5
   crouchScaleYMult: 0.5
@@ -110,6 +112,7 @@ MonoBehaviour:
   gravityForce: -9.81
   defaultVelocityY: -1
   velocityCoolingSpeed: 0.75
+  animator: {fileID: 8006342580601590303}
   ceilingCheck: {fileID: 5773082627610418155}
   ceilingCheckRadius: 0.25
   ceilingMask:
@@ -161,7 +164,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5773082629463838852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -243,5 +246,10 @@ Transform:
 --- !u!1 &7573599720823559210 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4108629495336714649, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+  m_PrefabInstance: {fileID: 5773082628078130611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8006342580601590303 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4540229000190281644, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
   m_PrefabInstance: {fileID: 5773082628078130611}
   m_PrefabAsset: {fileID: 0}

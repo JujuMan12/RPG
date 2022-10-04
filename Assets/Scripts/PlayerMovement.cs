@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [HideInInspector] private enum AnimationStates { idle, falling, moving, running };
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public bool isRunning;
     [HideInInspector] private bool isCrouching;
 
     [Header("Movement")]
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private CharacterController controller;
+    [SerializeField] private Transform body;
     [SerializeField] private float speed = 5f;
+    [SerializeField] private float rotationSpeed = 1000f;
     [SerializeField] private float sprintSpeedMult = 2f;
     [SerializeField] private float crouchSpeedMult = 0.5f;
     [SerializeField] private float crouchScaleYMult = 0.5f;
@@ -19,6 +22,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravityForce = -9.81f;
     [SerializeField] public float defaultVelocityY = -1f;
     [SerializeField] private float velocityCoolingSpeed = 0.75f;
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
 
     [Header("Environment")]
     [SerializeField] private Transform ceilingCheck;
@@ -32,7 +38,13 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleMovement();
         HandleFalling();
+        HandleJumping();
         HandleVelocity();
+
+        if (controller.velocity.x != 0f || controller.velocity.z != 0f)
+        {
+            HandleRotation();
+        }
 
         if (IsOnGround())
         {
@@ -43,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    //private void FixedUpdate()
+    //private void FixedUpdate() //TODO
     //{
     //    HandleCrouching();
     //}
@@ -79,16 +91,22 @@ public class PlayerMovement : MonoBehaviour
         if (IsOnGround() || IsUnderCeiling() && velocity.y > defaultVelocityY)
         {
             velocity.y = defaultVelocityY;
+            animator.SetInteger("state", (int)AnimationStates.idle);
         }
         else
         {
             velocity.y += gravityForce * Time.deltaTime;
+            animator.SetInteger("state", (int)AnimationStates.falling);
+
             if (isCrouching && (velocity.y < defaultVelocityY - 1f || velocity.y > defaultVelocityY + 1f))
             {
                 isCrouching = false;
             }
         }
+    }
 
+    private void HandleJumping()
+    {
         if (IsOnGround() && Input.GetButton("Jump"))
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravityForce);
@@ -98,10 +116,17 @@ public class PlayerMovement : MonoBehaviour
     private void HandleVelocity()
     {
         Vector3 direction = transform.right * velocity.x + transform.up * velocity.y + transform.forward * velocity.z;
-        characterController.Move(direction * Time.deltaTime);
+        controller.Move(direction * Time.deltaTime);
     }
 
-    //private void HandleCrouching()
+    private void HandleRotation()
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(controller.velocity, Vector3.up);
+        lookRotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
+        body.rotation = Quaternion.RotateTowards(body.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    //private void HandleCrouching() //TODO
     //{
     //    float newScaleY = transform.localScale.y;
     //    float targetScaleY = defaultScaleY;
