@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [HideInInspector] private enum AnimationStates { idle, falling, moving, running };
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public bool isRunning;
     [HideInInspector] private bool isCrouching;
 
-    [Header("Movement")]
+    [Header("Components")]
+    [SerializeField] private PlayerAnimation playerAnimation;
     [SerializeField] private CharacterController controller;
+
+    [Header("Movement")]
     [SerializeField] private Transform body;
     [SerializeField] private float speed = 5f;
     [SerializeField] private float rotationSpeed = 1000f;
@@ -22,9 +24,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float gravityForce = -9.81f;
     [SerializeField] public float defaultVelocityY = -1f;
     [SerializeField] private float velocityCoolingSpeed = 0.75f;
-
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
 
     [Header("Environment")]
     [SerializeField] private Transform ceilingCheck;
@@ -91,12 +90,10 @@ public class PlayerMovement : MonoBehaviour
         if (IsOnGround() || IsUnderCeiling() && velocity.y > defaultVelocityY)
         {
             velocity.y = defaultVelocityY;
-            animator.SetInteger("state", (int)AnimationStates.idle);
         }
         else
         {
             velocity.y += gravityForce * Time.deltaTime;
-            animator.SetInteger("state", (int)AnimationStates.falling);
 
             if (isCrouching && (velocity.y < defaultVelocityY - 1f || velocity.y > defaultVelocityY + 1f))
             {
@@ -110,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         if (IsOnGround() && Input.GetButton("Jump"))
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravityForce);
+            playerAnimation.Jump();
         }
     }
 
@@ -157,7 +155,7 @@ public class PlayerMovement : MonoBehaviour
         return Physics.CheckSphere(ceilingCheck.position, ceilingCheckRadius, ceilingMask);
     }
 
-    private bool IsOnGround()
+    public bool IsOnGround()
     {
         return Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
     }

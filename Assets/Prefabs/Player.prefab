@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5773082629104300326}
   - component: {fileID: 5773082629104300325}
   - component: {fileID: 8131404880409277618}
+  - component: {fileID: 228160483}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -100,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0, z: 0}
   isRunning: 0
+  playerAnimation: {fileID: 228160483}
   controller: {fileID: 5773082629104300326}
   body: {fileID: 4893339967941049210}
   speed: 5
@@ -112,7 +114,6 @@ MonoBehaviour:
   gravityForce: -9.81
   defaultVelocityY: -1
   velocityCoolingSpeed: 0.75
-  animator: {fileID: 8006342580601590303}
   ceilingCheck: {fileID: 5773082627610418155}
   ceilingCheckRadius: 0.25
   ceilingMask:
@@ -140,6 +141,23 @@ MonoBehaviour:
   - {fileID: 48526886908758984}
   - {fileID: 7573599720823559210}
   - {fileID: 3633325115477896246}
+--- !u!114 &228160483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773082629104300324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b4955bacaeeae489803c7b8dc42d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 5773082629104300325}
+  controller: {fileID: 5773082629104300326}
+  animator: {fileID: 8006342580601590303}
+  movingSpeed: 0.5
+  runningSpeed: 10
 --- !u!1 &5773082629463838852
 GameObject:
   m_ObjectHideFlags: 0
