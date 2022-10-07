@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    [HideInInspector] private GameObject currentBoots;
+    [HideInInspector] private InventoryItem_Armor currentHelmet;
+    [HideInInspector] private InventoryItem_Armor currentShirt;
+    [HideInInspector] private InventoryItem_Armor currentPants;
 
     [Header("Armor")]
+    [SerializeField] private int currentHelmetId;
+    [SerializeField] private GameObject[] helmets;
+    [SerializeField] private int currentChestId;
+    [SerializeField] private GameObject[] chests;
+    [SerializeField] private int currentArmsId;
+    [SerializeField] private GameObject[] arms;
+    [SerializeField] private int currentGauntletsId;
+    [SerializeField] private GameObject[] gauntlets;
+    [SerializeField] private int currentPantsId;
+    [SerializeField] private GameObject[] pants;
     [SerializeField] private int currentBootsId;
     [SerializeField] private GameObject[] boots;
 
     private void FixedUpdate()
     {
-        SetArmor(boots, currentBootsId, currentBoots);
+        //SetArmor(helmets, currentHelmetId, currentHelmet);
+        //SetArmor(chests, currentChestId, currentChest);
+        //SetArmor(arms, currentArmsId, currentArms);
     }
 
     private void SetArmor(GameObject[] armors, int armorId, GameObject currentArmor)

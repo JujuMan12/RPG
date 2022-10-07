@@ -44,9 +44,10 @@ GameObject:
   - component: {fileID: 5773082629104300325}
   - component: {fileID: 8131404880409277618}
   - component: {fileID: 228160483}
+  - component: {fileID: 8969663400028675371}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,6 +137,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b48c6b6c5afb99c4dae05d31508a1f78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentHelmetId: 0
+  helmets:
+  - {fileID: 0}
+  - {fileID: 7146902179207995758}
+  currentChestId: 0
+  chests: []
+  currentArmsId: 0
+  arms: []
+  currentGauntletsId: 0
+  gauntlets: []
+  currentPantsId: 0
+  pants: []
   currentBootsId: 0
   boots:
   - {fileID: 48526886908758984}
@@ -158,6 +171,18 @@ MonoBehaviour:
   animator: {fileID: 8006342580601590303}
   movingSpeed: 0.5
   runningSpeed: 10
+--- !u!114 &8969663400028675371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773082629104300324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f8072cb05873e4a8f7ec61d1af8f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5773082629463838852
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,6 +284,11 @@ GameObject:
 --- !u!4 &4893339967941049210 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1438546959266459337, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
+  m_PrefabInstance: {fileID: 5773082628078130611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7146902179207995758 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3688722674990396637, guid: 60770bdb4dc667c45bea53db0339dc05, type: 3}
   m_PrefabInstance: {fileID: 5773082628078130611}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7573599720823559210 stripped
