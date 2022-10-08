@@ -7,6 +7,9 @@ public class PlayerInteraction : MonoBehaviour
     [HideInInspector] public bool canTakeLoot;
     [HideInInspector] private LootComponent loot;
 
+    [Header("Components")]
+    [SerializeField] private PlayerEquipment playerEquipment;
+
     private void Update()
     {
         if (canTakeLoot && Input.GetButtonDown("Activate"))
@@ -35,6 +38,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void TakeLoot()
     {
+        playerEquipment.GetNewItem(loot.scriptedItem); //TODO: add random items
         Destroy(loot.gameObject);
         canTakeLoot = false;
     }

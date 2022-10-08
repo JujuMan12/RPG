@@ -7,6 +7,10 @@ public class PlayerEquipment : MonoBehaviour
     [HideInInspector] private InventoryItem_Armor currentHelmet;
     [HideInInspector] private InventoryItem_Armor currentShirt;
     [HideInInspector] private InventoryItem_Armor currentPants;
+    [HideInInspector] public List<InventoryItem> collectedItems;
+
+    [Header("Components")]
+    [SerializeField] private Transform collectedItemsFolder;
 
     [Header("Armor")]
     [SerializeField] private int currentHelmetId;
@@ -21,6 +25,11 @@ public class PlayerEquipment : MonoBehaviour
     [SerializeField] private GameObject[] pants;
     [SerializeField] private int currentBootsId;
     [SerializeField] private GameObject[] boots;
+
+    private void Start()
+    {
+        collectedItems = new List<InventoryItem>();
+    }
 
     private void FixedUpdate()
     {
@@ -42,5 +51,11 @@ public class PlayerEquipment : MonoBehaviour
 
             armors[armorId].SetActive(true);
         }
+    }
+
+    public void GetNewItem(InventoryItem item)
+    {
+        collectedItems.Add(item);
+        item.transform.SetParent(collectedItemsFolder);
     }
 }
