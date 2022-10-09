@@ -7,7 +7,10 @@ public class UIInventoryList : MonoBehaviour
     [Header("Components")]
     [SerializeField] private PlayerEquipment playerEquipment;
 
-    public void DrawInventory()
+    [Header("List")]
+    [SerializeField] private GameObject itemPrefab;
+
+    public void UpdateList()
     {
         foreach (Transform item in transform)
         {
@@ -16,11 +19,12 @@ public class UIInventoryList : MonoBehaviour
 
         foreach (InventoryItem itemData in playerEquipment.collectedItems)
         {
-            //GameObject item = Instantiate(itemPrefab);
-            //item.transform.SetParent(transform);
+            GameObject item = Instantiate(itemPrefab);
+            item.transform.SetParent(transform);
 
-            //InventoryItemUI itemUI = item.GetComponent<InventoryItemUI>();
-            //itemUI.inventoryItem = itemData;
+            UIInventoryItem itemIcon = item.GetComponent<UIInventoryItem>();
+            itemIcon.inventoryItem = itemData;
+            itemIcon.inventoryList = this;
         }
     }
 }

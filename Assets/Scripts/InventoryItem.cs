@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class InventoryItem : MonoBehaviour
 {
-    //TODO
+    [Header("General")]
+    [SerializeField] public Sprite inventoryIcon;
 }

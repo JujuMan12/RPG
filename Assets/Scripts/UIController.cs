@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private GameObject inventoryWindow;
+    [SerializeField] private UIInventoryList inventoryList;
     [SerializeField] private GameObject lootTip;
 
     [Header("Components")]
@@ -18,6 +19,7 @@ public class UIController : MonoBehaviour
         if (Input.GetButtonDown("Inventory"))
         {
             inventoryState = SetWindowState(inventoryWindow, !inventoryState);
+            inventoryList.UpdateList();
         }
     }
 
