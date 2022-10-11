@@ -6,4 +6,5 @@ public class InventoryItem : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] public Sprite inventoryIcon;
+    [SerializeField] public PlayerEquipment.EquipmentTypes slotType;
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIInventoryList : MonoBehaviour
 {
     [Header("Components")]
-    [SerializeField] private PlayerEquipment playerEquipment;
+    [SerializeField] public PlayerEquipment playerEquipment;
 
     [Header("List")]
     [SerializeField] private GameObject itemPrefab;

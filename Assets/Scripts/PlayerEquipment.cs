@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerEquipment : MonoBehaviour
 {
-    [HideInInspector] private InventoryItem_Armor currentHelmet;
-    [HideInInspector] private InventoryItem_Armor currentShirt;
-    [HideInInspector] private InventoryItem_Armor currentPants;
+    [HideInInspector] public enum EquipmentTypes { helmet, breastplate, pants, weapon, shield }
+    [HideInInspector] public InventoryItem[] currentEquipment;
     [HideInInspector] public List<InventoryItem> collectedItems;
 
     [Header("Components")]
@@ -29,6 +28,7 @@ public class PlayerEquipment : MonoBehaviour
     private void Start()
     {
         collectedItems = new List<InventoryItem>();
+        currentEquipment = new InventoryItem[5];
     }
 
     private void FixedUpdate()
