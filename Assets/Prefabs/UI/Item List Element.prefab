@@ -251,10 +251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryItem: {fileID: 0}
   inventoryList: {fileID: 0}
-  bg: {fileID: 3817272587650400937}
-  defaultColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0}
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 0.49019608}
   itemIcon: {fileID: 3817272587349436629}
+  label: {fileID: 3817272587943425313}
 --- !u!1 &3817272587943425315
 GameObject:
   m_ObjectHideFlags: 0

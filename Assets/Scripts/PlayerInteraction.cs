@@ -38,7 +38,11 @@ public class PlayerInteraction : MonoBehaviour
 
     private void TakeLoot()
     {
-        playerEquipment.GetNewItem(loot.scriptedItem); //TODO: add random items
+        foreach (InventoryItem item in loot.scriptedItems) //TODO: add random items
+        {
+            playerEquipment.GetNewItem(item);
+        }
+
         Destroy(loot.gameObject);
         canTakeLoot = false;
     }

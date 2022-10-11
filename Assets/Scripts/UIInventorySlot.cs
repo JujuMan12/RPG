@@ -19,13 +19,17 @@ public class UIInventorySlot : MonoBehaviour
 
     private void UpdateIcon()
     {
-        Sprite inventoryIcon = player.currentEquipment[(int)slotType]?.inventoryIcon;
+        Sprite icon = player.currentEquipment[(int)slotType]?.icon;
 
-        if (slot.sprite != inventoryIcon)
+        if (slot.sprite != icon)
         {
-            slot.sprite = inventoryIcon;
+            slot.sprite = icon;
+            slot.enabled = icon != null;
         }
+    }
 
-        slot.enabled = slot.sprite != null;
+    public void RemoveItem()
+    {
+        player.RemoveCurrentEquipment((int)slotType);
     }
 }

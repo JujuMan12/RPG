@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class InventoryItem : MonoBehaviour
 {
-    [Header("General")]
-    [SerializeField] public Sprite inventoryIcon;
+    [Header("Inventory")]
+    [SerializeField] public Sprite icon;
+    [SerializeField] public string label;
     [SerializeField] public PlayerEquipment.EquipmentTypes slotType;
+
+    [Header("Visual")]
+    [SerializeField] public PlayerEquipment.BodyPartsToHide bodyPartToHide;
+    [SerializeField] public GameObject[] meshes;
 }

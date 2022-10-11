@@ -5,5 +5,5 @@ using UnityEngine;
 public class LootComponent : MonoBehaviour
 {
     [Header("Loot")]
-    [SerializeField] public InventoryItem scriptedItem;
+    [SerializeField] public InventoryItem[] scriptedItems;
 }

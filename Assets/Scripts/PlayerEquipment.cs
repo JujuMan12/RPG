@@ -5,25 +5,19 @@ using UnityEngine;
 public class PlayerEquipment : MonoBehaviour
 {
     [HideInInspector] public enum EquipmentTypes { helmet, breastplate, pants, weapon, shield }
+    [HideInInspector] public enum BodyPartsToHide { none, hair, head, top, topAndHands, bottom }
     [HideInInspector] public InventoryItem[] currentEquipment;
     [HideInInspector] public List<InventoryItem> collectedItems;
 
     [Header("Components")]
     [SerializeField] private Transform collectedItemsFolder;
 
-    [Header("Armor")]
-    [SerializeField] private int currentHelmetId;
-    [SerializeField] private GameObject[] helmets;
-    [SerializeField] private int currentChestId;
-    [SerializeField] private GameObject[] chests;
-    [SerializeField] private int currentArmsId;
-    [SerializeField] private GameObject[] arms;
-    [SerializeField] private int currentGauntletsId;
-    [SerializeField] private GameObject[] gauntlets;
-    [SerializeField] private int currentPantsId;
-    [SerializeField] private GameObject[] pants;
-    [SerializeField] private int currentBootsId;
-    [SerializeField] private GameObject[] boots;
+    [Header("Body Parts To Hide")]
+    [SerializeField] private GameObject[] hair;
+    [SerializeField] private GameObject[] head;
+    [SerializeField] private GameObject[] top;
+    [SerializeField] private GameObject[] hands;
+    [SerializeField] private GameObject[] bottom;
 
     private void Start()
     {
@@ -31,25 +25,54 @@ public class PlayerEquipment : MonoBehaviour
         currentEquipment = new InventoryItem[5];
     }
 
-    private void FixedUpdate()
+    public void RemoveCurrentEquipment(int slot)
     {
-        //SetArmor(helmets, currentHelmetId, currentHelmet);
-        //SetArmor(chests, currentChestId, currentChest);
-        //SetArmor(arms, currentArmsId, currentArms);
+        if (currentEquipment[slot] != null)
+        {
+            ChangeEquipmentState(currentEquipment[slot], false);
+            currentEquipment[slot] = null;
+        }
     }
 
-    private void SetArmor(GameObject[] armors, int armorId, GameObject currentArmor)
+    public void SetEquipment(InventoryItem equipment, int slot)
     {
-        if (currentArmor != armors[armorId])
+        RemoveCurrentEquipment(slot);
+
+        currentEquipment[slot] = equipment;
+        ChangeEquipmentState(equipment, true);
+    }
+
+    private void ChangeEquipmentState(InventoryItem equipment, bool state)
+    {
+        switch (equipment.bodyPartToHide)
         {
-            currentArmor = armors[armorId];
+            case BodyPartsToHide.hair:
+                ChangeMeshState(hair, !state);
+                break;
+            case BodyPartsToHide.head:
+                ChangeMeshState(head, !state);
+                ChangeMeshState(hair, !state);
+                break;
+            case BodyPartsToHide.top:
+                ChangeMeshState(top, !state);
+                break;
+            case BodyPartsToHide.topAndHands:
+                ChangeMeshState(top, !state);
+                ChangeMeshState(hands, !state);
+                break;
+            case BodyPartsToHide.bottom:
+                ChangeMeshState(bottom, !state);
+                break;
+        }
 
-            foreach (GameObject armor in armors)
-            {
-                armor.SetActive(false);
-            }
+        ChangeMeshState(equipment.meshes, state);
+    }
 
-            armors[armorId].SetActive(true);
+    private void ChangeMeshState(GameObject[] meshes, bool state)
+    {
+        foreach (GameObject mesh in meshes)
+        {
+            mesh.SetActive(state);
         }
     }
 
