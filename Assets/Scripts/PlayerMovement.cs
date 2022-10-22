@@ -5,12 +5,13 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public Vector3 velocity;
-    [HideInInspector] public bool isRunning;
+    [HideInInspector] public bool isSprinting;
     [HideInInspector] private bool isCrouching;
 
     [Header("Components")]
     [SerializeField] private PlayerAnimation playerAnimation;
     [SerializeField] private CharacterController controller;
+    [SerializeField] private Transform cam;
 
     [Header("Movement")]
     [SerializeField] private Transform body;
@@ -35,17 +36,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        HandleMovement();
-        HandleFalling();
-        HandleJumping();
-        HandleVelocity();
+        ComputeVelocityXZ();
+        ComputeVelocityY();
+        MovePlayer();
 
         if (controller.velocity.x != 0f || controller.velocity.z != 0f)
         {
-            HandleRotation();
+            RotateBody();
         }
 
-        if (IsOnGround())
+        if (IsOnGround()) //TODO
         {
             if (Input.GetButtonDown("Crouch"))
             {
@@ -59,33 +59,48 @@ public class PlayerMovement : MonoBehaviour
     //    HandleCrouching();
     //}
 
-    private void HandleMovement()
+    private void ComputeVelocityXZ()
     {
         if (IsOnGround())
         {
             velocity.x = Input.GetAxis("Horizontal") * speed;
             velocity.z = Input.GetAxis("Vertical") * speed;
-
-            if (Input.GetButton("Sprint"))
-            {
-                velocity.x *= sprintSpeedMult;
-                velocity.z *= sprintSpeedMult;
-                isCrouching = false;
-            }
-            else if (isCrouching)
-            {
-                velocity.x *= crouchSpeedMult;
-                velocity.z *= crouchSpeedMult;
-            }
         }
         else
         {
             velocity.x = Mathf.Lerp(velocity.x, 0f, Time.deltaTime * velocityCoolingSpeed);
             velocity.z = Mathf.Lerp(velocity.z, 0f, Time.deltaTime * velocityCoolingSpeed);
         }
+
+        HandleSprint();
+        HandleCrouching();
     }
 
-    private void HandleFalling()
+    private void HandleSprint()
+    {
+        if (Input.GetButton("Sprint") && IsOnGround())
+        {
+            velocity.x *= sprintSpeedMult;
+            velocity.z *= sprintSpeedMult;
+            isSprinting = true;
+            isCrouching = false;
+        }
+        else
+        {
+            isSprinting = false;
+        }
+    }
+
+    private void HandleCrouching() //TODO
+    {
+        if (isCrouching && IsOnGround())
+        {
+            velocity.x *= crouchSpeedMult;
+            velocity.z *= crouchSpeedMult;
+        }
+    }
+
+    private void ComputeVelocityY()
     {
         if (IsOnGround() || IsUnderCeiling() && velocity.y > defaultVelocityY)
         {
@@ -100,24 +115,26 @@ public class PlayerMovement : MonoBehaviour
                 isCrouching = false;
             }
         }
+
+        HandleJumping();
     }
 
     private void HandleJumping()
     {
-        if (IsOnGround() && Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && IsOnGround())
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravityForce);
             playerAnimation.Jump();
         }
     }
 
-    private void HandleVelocity()
+    private void MovePlayer()
     {
-        Vector3 direction = transform.right * velocity.x + transform.up * velocity.y + transform.forward * velocity.z;
+        Vector3 direction = cam.right * velocity.x + transform.up * velocity.y + cam.forward * velocity.z;
         controller.Move(direction * Time.deltaTime);
     }
 
-    private void HandleRotation()
+    private void RotateBody()
     {
         Quaternion lookRotation = Quaternion.LookRotation(controller.velocity, Vector3.up);
         lookRotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);

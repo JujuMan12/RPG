@@ -14,6 +14,11 @@ public class UIController : MonoBehaviour
     [Header("Components")]
     [SerializeField] private PlayerInteraction playerInteraction;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     private void Update()
     {
         if (Input.GetButtonDown("Inventory"))

@@ -12,8 +12,7 @@ public class PlayerAnimation : MonoBehaviour
 
     [Header("Animation")]
     [SerializeField] private Animator animator;
-    [SerializeField] private float movingSpeed = 0.5f;
-    [SerializeField] private float runningSpeed = 10f;
+    [SerializeField] private float movingThreshold = 0.5f;
 
     private void FixedUpdate()
     {
@@ -27,13 +26,16 @@ public class PlayerAnimation : MonoBehaviour
             float speedX = Mathf.Abs(controller.velocity.x);
             float speedZ = Mathf.Abs(controller.velocity.z);
 
-            if (speedX >= runningSpeed || speedZ >= runningSpeed)
+            if (speedX >= movingThreshold || speedZ >= movingThreshold)
             {
-                animator.SetInteger("state", (int)AnimationStates.running);
-            }
-            else if (speedX >= movingSpeed || speedZ >= movingSpeed)
-            {
-                animator.SetInteger("state", (int)AnimationStates.moving);
+                if (playerMovement.isSprinting)
+                {
+                    animator.SetInteger("state", (int)AnimationStates.running);
+                }
+                else
+                {
+                    animator.SetInteger("state", (int)AnimationStates.moving);
+                }
             }
             else
             {
