@@ -16,10 +16,10 @@ public class PlayerAnimation : MonoBehaviour
 
     private void FixedUpdate()
     {
-        UpdateState();
+        UpdateAnimState();
     }
 
-    private void UpdateState()
+    private void UpdateAnimState()
     {
         if (playerMovement.IsOnGround())
         {

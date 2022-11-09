@@ -6,7 +6,6 @@ public class PlayerMovement : MonoBehaviour
 {
     [HideInInspector] public Vector3 velocity;
     [HideInInspector] public bool isSprinting;
-    [HideInInspector] private bool isCrouching;
 
     [Header("Components")]
     [SerializeField] private PlayerAnimation playerAnimation;
@@ -18,9 +17,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float rotationSpeed = 1000f;
     [SerializeField] private float sprintSpeedMult = 2f;
-    [SerializeField] private float crouchSpeedMult = 0.5f;
-    [SerializeField] private float crouchScaleYMult = 0.5f;
-    [SerializeField] private float crouchTransitionSpeed = 1f;
     [SerializeField] private float jumpForce = 1f;
     [SerializeField] private float gravityForce = -9.81f;
     [SerializeField] public float defaultVelocityY = -1f;
@@ -44,20 +40,7 @@ public class PlayerMovement : MonoBehaviour
         {
             RotateBody();
         }
-
-        if (IsOnGround()) //TODO
-        {
-            if (Input.GetButtonDown("Crouch"))
-            {
-                isCrouching = !isCrouching;
-            }
-        }
     }
-
-    //private void FixedUpdate() //TODO
-    //{
-    //    HandleCrouching();
-    //}
 
     private void ComputeVelocityXZ()
     {
@@ -73,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         HandleSprint();
-        HandleCrouching();
     }
 
     private void HandleSprint()
@@ -83,20 +65,10 @@ public class PlayerMovement : MonoBehaviour
             velocity.x *= sprintSpeedMult;
             velocity.z *= sprintSpeedMult;
             isSprinting = true;
-            isCrouching = false;
         }
         else
         {
             isSprinting = false;
-        }
-    }
-
-    private void HandleCrouching() //TODO
-    {
-        if (isCrouching && IsOnGround())
-        {
-            velocity.x *= crouchSpeedMult;
-            velocity.z *= crouchSpeedMult;
         }
     }
 
@@ -109,11 +81,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             velocity.y += gravityForce * Time.deltaTime;
-
-            if (isCrouching && (velocity.y < defaultVelocityY - 1f || velocity.y > defaultVelocityY + 1f))
-            {
-                isCrouching = false;
-            }
         }
 
         HandleJumping();
@@ -140,32 +107,6 @@ public class PlayerMovement : MonoBehaviour
         lookRotation = Quaternion.Euler(0f, lookRotation.eulerAngles.y, 0f);
         body.rotation = Quaternion.RotateTowards(body.rotation, lookRotation, rotationSpeed * Time.deltaTime);
     }
-
-    //private void HandleCrouching() //TODO
-    //{
-    //    float newScaleY = transform.localScale.y;
-    //    float targetScaleY = defaultScaleY;
-    //    float newPositionY = transform.position.y;
-    //    float targetPositionY = newPositionY + 0.5f * crouchScaleYMult;
-
-    //    if (isCrouching)
-    //    {
-    //        targetScaleY *= crouchScaleYMult;
-    //        targetPositionY = newPositionY - 2f * crouchScaleYMult;
-    //    }
-
-    //    if (newScaleY < targetScaleY - 0.05f || newScaleY > targetScaleY + 0.05f)
-    //    {
-    //        newScaleY = Mathf.Lerp(newScaleY, targetScaleY, Time.deltaTime * crouchTransitionSpeed);
-    //        newPositionY = Mathf.Lerp(newPositionY, targetPositionY, Time.deltaTime * crouchTransitionSpeed);
-    //        transform.localScale = new Vector3(transform.localScale.x, newScaleY, transform.localScale.z);
-    //        transform.position = new Vector3(transform.position.x, newPositionY, transform.position.z);
-    //    }
-    //    else
-    //    {
-    //        transform.localScale = new Vector3(transform.localScale.x, targetScaleY, transform.localScale.z);
-    //    }
-    //}
 
     private bool IsUnderCeiling()
     {
